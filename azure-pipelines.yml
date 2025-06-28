@@ -18,13 +18,19 @@ steps:
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
+    command: 'install'
+    workingDir: '.'
     verbose: false
 
-- script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
+- script: 'npx sass $(wwwrootDir)/css/site.scss:$(wwwrootDir)/css/site.css'
   displayName: 'Compile Sass assets'
 
 - task: gulp@1
   displayName: 'Run gulp tasks'
+  inputs:
+    gulpFile: 'gulpfile.js'
+    targets: 'default'
+    enableCodeCoverage: false
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
