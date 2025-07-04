@@ -1,8 +1,10 @@
+# Testing pipeline configuration
 trigger:
 - '*'
 
 pool:
-  vmImage: 'ubuntu-20.04'
+  vmImage: 'ubuntu-latest'
+
   demands:
   - npm
 
@@ -17,16 +19,28 @@ steps:
   inputs:
     version: '$(dotnetSdkVersion)'
 
+- task: UseNode@1
+  displayName: 'Use Node.js'
+  inputs:
+    version: '18.x'
+
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
     verbose: false
 
-- script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
+
+- script: './node_modules/.bin/sass $(wwwrootDir):$(wwwrootDir) --style=compressed'
   displayName: 'Compile Sass assets'
 
 - task: gulp@1
   displayName: 'Run gulp tasks'
+
+  inputs:
+    gulpFile: 'gulpfile.js'
+    targets: 
+    arguments: 
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
