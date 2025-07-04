@@ -4,6 +4,7 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
+
   demands:
   - npm
 
@@ -28,11 +29,13 @@ steps:
   inputs:
     verbose: false
 
+
 - script: './node_modules/.bin/sass $(wwwrootDir):$(wwwrootDir) --style=compressed'
   displayName: 'Compile Sass assets'
 
 - task: gulp@1
   displayName: 'Run gulp tasks'
+
   inputs:
     gulpFile: 'gulpfile.js'
     targets: 
