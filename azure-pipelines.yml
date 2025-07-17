@@ -17,6 +17,9 @@ steps:
     inputs:
       version: "$(dotnetSdkVersion)"
 
+  - script: "rm -f package-lock.json && rm -rf node_modules"
+    displayName: "Clean npm cache and lock file"
+
   - task: Npm@1
     displayName: "Run npm install"
     inputs:
