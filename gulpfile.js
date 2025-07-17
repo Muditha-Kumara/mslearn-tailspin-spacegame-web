@@ -6,11 +6,7 @@ const gulp = require("gulp"),
       concat = require("gulp-concat"),
       cleanCSS = require("gulp-clean-css"),
       uglify = require("gulp-uglify"),
-      gulpSass = require("gulp-sass"),
-      sass = require("sass");
-
-// Configure gulp-sass to use Dart Sass
-gulpSass.compiler = sass;
+      gulpSass = require("gulp-sass")(require("sass"));
 
 const paths = {
   webroot: "./Tailspin.SpaceGame.Web/wwwroot/"
